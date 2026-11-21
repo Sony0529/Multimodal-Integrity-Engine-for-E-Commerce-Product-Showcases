@@ -1,0 +1,26 @@
+name: Auto 350 Commits
+
+on:
+  workflow_dispatch:
+
+jobs:
+  commit-job:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Make 350 commits
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@://github.com"
+          
+          for i in {1..350}; do
+            echo "Commit $i" >> log.txt
+            git add log.txt
+            git commit -m "Automated commit $i"
+          done
+          
+          git push
